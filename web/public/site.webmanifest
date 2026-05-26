@@ -1,0 +1,11 @@
+{
+  "name": "Sales Training — Ops Intelligence",
+  "short_name": "Sales Training",
+  "description": "Operations intelligence dashboard for sales training programs.",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "theme_color": "#0A0A0A",
+  "background_color": "#0A0A0A",
+  "display": "standalone"
+}

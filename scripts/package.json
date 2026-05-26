@@ -1,0 +1,14 @@
+{
+  "name": "sales-training-sync",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "sync": "node sync-to-supabase.mjs",
+    "sync:dry": "node sync-to-supabase.mjs --dry-run",
+    "check": "node check-sync.mjs"
+  },
+  "dependencies": {
+    "papaparse": "^5.4.1"
+  }
+}

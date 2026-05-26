@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body { height: 100%; overflow-x: hidden; }
+  #root { min-height: 100%; }
+  body { font-feature-settings: 'ss01', 'cv11'; }
+  ::selection { background: #0D948833; }
+}
+
+@layer components {
+  .num { @apply font-mono tabular-nums; }
+  .label-xs { @apply text-[10px] uppercase tracking-[0.12em] text-muted dark:text-muted-dark; }
+  .hrule { @apply border-line dark:border-line-dark; }
+  .cell-pad { @apply px-3 py-2; }
+  .btn-ghost {
+    @apply px-2.5 py-1 text-xs font-medium border border-line dark:border-line-dark
+           hover:bg-ink/[0.04] dark:hover:bg-ink-dark/[0.04] transition-colors;
+  }
+  .tab {
+    @apply px-3 py-2 text-xs uppercase tracking-[0.10em] border-b-2 border-transparent
+           text-muted dark:text-muted-dark hover:text-ink dark:hover:text-ink-dark
+           transition-colors cursor-pointer;
+  }
+  .tab-active {
+    @apply text-ink dark:text-ink-dark border-ink dark:border-ink-dark;
+  }
+
+  /* Table headers: bold + high-contrast + sticky inside scroll containers */
+  .th-bold {
+    @apply text-[10px] font-bold uppercase tracking-[0.10em]
+           text-ink dark:text-ink-dark
+           bg-line/40 dark:bg-line-dark/40;
+  }
+  .th-sortable {
+    @apply cursor-pointer select-none hover:bg-line dark:hover:bg-line-dark transition-colors;
+  }
+  /* Scrollable data container: makes its own thead stick to the top */
+  .table-scroll { @apply overflow-auto; }
+  .table-scroll thead { position: sticky; top: 0; z-index: 10; }
+  .table-scroll thead th { @apply th-bold; }
+}
+
+@layer utilities {
+  /* Slow pulsing dot for "in progress" markers */
+  @keyframes blink-soft {
+    0%, 100% { opacity: 1;   transform: scale(1); }
+    50%      { opacity: 0.45; transform: scale(0.85); }
+  }
+  .animate-blink { animation: blink-soft 1.4s ease-in-out infinite; }
+}

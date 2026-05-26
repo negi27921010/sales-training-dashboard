@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+web/dist/
+web/.vite/
+**/dist/
+
+# Environment / secrets — never commit
+.env
+.env.local
+.env.*.local
+web/.env
+web/.env.local
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# Vercel
+.vercel/
+
+# Test screenshots / temp
+/tmp/
+shots/
