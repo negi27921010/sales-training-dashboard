@@ -1,0 +1,62 @@
+name: Sync Google Sheet → Supabase
+
+on:
+  # Every 15 minutes (cron is UTC; minimum interval is 5 min but 15 is gentler)
+  schedule:
+    - cron: '*/15 * * * *'
+  # Allow manual triggers from the Actions tab
+  workflow_dispatch:
+  # Run after a push to main so config changes take effect immediately
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'supabase/schema.sql'
+      - '.github/workflows/sync.yml'
+
+# Only one sync at a time
+concurrency:
+  group: sync-supabase
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install sync deps
+        working-directory: scripts
+        run: npm install --no-audit --no-fund
+
+      - name: Dry-run (transform check)
+        working-directory: scripts
+        env:
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: node check-sync.mjs
+
+      - name: Sync to Supabase
+        working-directory: scripts
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SHEET_ID: ${{ secrets.SHEET_ID }}
+        run: node sync-to-supabase.mjs
+
+      - name: Report
+        if: always()
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            echo "::notice ::Supabase sync completed at $(date -u)"
+          else
+            echo "::error ::Supabase sync FAILED at $(date -u)"
+          fi
