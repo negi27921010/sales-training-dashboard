@@ -32,3 +32,4 @@ npm-debug.log*
 # Test screenshots / temp
 /tmp/
 shots/
+.vercel

@@ -1,0 +1,29 @@
+node_modules
+**/node_modules
+web/node_modules
+scripts/node_modules
+
+# Local build output (Vercel builds fresh)
+web/dist
+web/.vite
+
+# Dev caches
+.cache
+.parcel-cache
+
+# Secrets
+.env
+.env.local
+.env.*.local
+web/.env
+web/.env.local
+
+# Dev artifacts
+tasks/
+sales_training_dashboard_system_prompt.md
+/tmp/
+shots/
+*.log
+
+# Apps Script alternative (not deployed)
+apps_script/
